@@ -19,7 +19,7 @@ func Open(name string) (*Avt414, error) {
 	if err != nil {
 		return nil, err
 	}
-	if err = s.Speed(57600); err != nil {
+	if err = s.SetSpeed(57600); err != nil {
 		return nil, err
 	}
 	return &Avt414{s}, nil
