@@ -38,6 +38,7 @@ func checkPort(port byte) error {
 	return nil
 }
 
+// iomask: 0 - output, 1 - input
 func (a *Avt414) Setup(port, iomask byte) error {
 	err := checkPort(port)
 	if err != nil {
@@ -95,7 +96,7 @@ func (a *Avt414) ADC(line int) (uint16, error) {
 		return 0, err
 	}
 	if n == 1 {
-		cmd[1], err = a.s.ReadByte()
+		_, err = a.s.Read(cmd[1:2])
 		if err != nil {
 			return 0, err
 		}
