@@ -38,6 +38,7 @@ func checkPort(port byte) error {
 	return nil
 }
 
+// port: 'B', 'C' or 'D'
 // iomask: 0 - output, 1 - input
 func (a *Avt414) Setup(port, iomask byte) error {
 	err := checkPort(port)
@@ -82,6 +83,7 @@ func (a *Avt414) Read(port byte) (byte, error) {
 	return a.s.ReadByte()
 }
 
+// 0 <= line <= 7
 func (a *Avt414) ADC(line int) (uint16, error) {
 	if line < 0 || line > 7 {
 		return 0, fmt.Errorf("Bad AVT414 ADC line number: %d", line)
