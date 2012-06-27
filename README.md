@@ -3,6 +3,6 @@ This is simple Go driver for AVT414 USB I/O card. It is PIC16F877 based system w
 You can buy it on the in Polish market (try http://allegro.pl or
 http://sklep.avt.pl/)
 
-See http://ep.com.pl/files/4241.pdf (Polish)
+See http://ep.com.pl/files/4241.pdf (Polish but contains some shemes).
 
-[Package documentation]http://gopkgdoc.appspot.com/pkg/github.com/ziutek/avt414
+[Package documentation](http://gopkgdoc.appspot.com/pkg/github.com/ziutek/avt414)
