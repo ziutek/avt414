@@ -90,7 +90,7 @@ func (a *Avt414) ADC(line int) (uint16, error) {
 	if err != nil {
 		return 0, err
 	}
-	n, err := a.s.Read(cmd)
+	n, err := a.s.Read(cmd[:2])
 	if err != nil {
 		return 0, err
 	}
