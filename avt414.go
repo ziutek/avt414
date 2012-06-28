@@ -14,6 +14,8 @@ type Avt414 struct {
 	s *serial.Serial
 }
 
+// Open connection to the device.
+// name - path to the device file (eg: /dev/ttyUSB0)
 func Open(name string) (*Avt414, error) {
 	s, err := serial.Open(name)
 	if err != nil {
