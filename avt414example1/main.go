@@ -15,6 +15,7 @@ func checkErr(err error) {
 func main() {
 	a, err := avt414.Open("/dev/ttyUSB0")
 	checkErr(err)
+	defer a.Close()
 
 	port := byte('D')
 	checkErr(a.Setup(port, 0))
@@ -29,15 +30,20 @@ func main() {
 	const loop = 20
 	var i byte
 	for {
-		start := time.Now()
 		if i == 0 {
 			i = 0x80
 		}
+		start := time.Now()
 		for n := 0; n < loop; n++ {
 			if err = a.Write(port, i); err != nil {
 				log.Fatal(err)
 			}
+			if err = a.Write(port, 0); err != nil {
+				log.Fatal(err)
+			}
 		}
+		wr := time.Now().Sub(start)
+		start = time.Now()
 		var b byte
 		for n := 0; n < loop; n++ {
 			b, err = a.Read('B')
@@ -45,6 +51,8 @@ func main() {
 				log.Fatal(err)
 			}
 		}
+		rd := time.Now().Sub(start)
+		start = time.Now()
 		var c uint16
 		for n := 0; n < loop; n++ {
 			c, err = a.ADC(0)
@@ -52,12 +60,13 @@ func main() {
 				log.Fatal(err)
 			}
 		}
-		dt := time.Now().Sub(start)
+		ad := time.Now().Sub(start)
 		log.Printf(
-			"%x, %.3f  %d cmd/s",
-			b, 2.5*float32(c)/1023, 3*loop*time.Second/dt,
+			"(wr/s=%d), %x (rd/s=%d), %.3f (ad/s=%d)",
+			2*loop*time.Second/wr,
+			b, loop*time.Second/rd,
+			2.5*float32(c)/1023, loop*time.Second/ad,
 		)
 		i >>= 1
 	}
-	a.Close()
 }
